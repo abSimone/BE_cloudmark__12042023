@@ -42,7 +42,7 @@ public class CompanyServiceImpl implements CompanyService {
             }
         }
         else {
-            deleteMap.put(false, "non-existent actor");
+            deleteMap.put(false, "non-existent company");
         }
 
         return deleteMap;
