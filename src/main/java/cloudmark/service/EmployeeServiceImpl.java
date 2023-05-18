@@ -27,34 +27,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-	public Map<Boolean, String> deleteEmployee(Integer employeeId) {
+    public Map<Boolean, String> deleteEmployee(Integer employeeId) {
 
-		Map<Boolean, String> deletionMap = new HashMap<>();
+        Map<Boolean, String> deletionMap = new HashMap<>();
 
-		if (employeeRepository.existsById(employeeId)) {
+        if (employeeRepository.existsById(employeeId)) {
 
-			try {
-				employeeRepository.deleteById(employeeId);
-				deletionMap.put(true, "cancellazione effettuata");
+            try {
+                employeeRepository.deleteById(employeeId);
+                deletionMap.put(true, "cancellazione effettuata");
 
-			} catch (IllegalArgumentException e) {
-				deletionMap.put(false, "cancellazione non effettuata");
-				e.printStackTrace();
-			}
+            } catch (IllegalArgumentException e) {
+                deletionMap.put(false, "cancellazione non effettuata");
+                e.printStackTrace();
+            }
 
-		} else {
-			deletionMap.put(false, "employeeId non esistente nel database");
-		}
+        } else {
+            deletionMap.put(false, "employeeId non esistente nel database");
+        }
 
-		return deletionMap;
-	}
+        return deletionMap;
+    }
 
     @Override
     public Employee findEmployeeById(Integer employeeId) {
         return employeeRepository.findById(employeeId).get();
     }
-
-  
-
 
 }

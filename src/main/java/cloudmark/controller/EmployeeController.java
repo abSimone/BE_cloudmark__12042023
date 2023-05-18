@@ -17,13 +17,12 @@ import cloudmark.entity.Employee;
 import cloudmark.service.EmployeeService;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("api/employee")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-   
     @PostMapping("/")
     public Employee saveEmployee(@RequestBody Employee employee) {
 
@@ -32,26 +31,27 @@ public class EmployeeController {
     }
 
     @PutMapping("/")
-    public Employee updateCompany(@RequestBody Employee employee) {
-        return employeeService.saveOrUpdateEmployee(employee);
+    public Employee updateEmployee(@RequestBody Employee employee) {
+
+        return employeeService.saveOrUpdateEmployee(employee); // UPDATE
     }
 
     @GetMapping("/")
-    public List<Employee> findAllCompanies() {
+    public List<Employee> findAllEmployees() {
 
         return employeeService.findAllEmployees();
     }
 
     @DeleteMapping("/{employeeId}")
-    public Map<Boolean, String> removeCompany(@PathVariable Integer employeeId) {
+    public Map<Boolean, String> deleteEmployee(@PathVariable Integer employeeId) {
 
         return employeeService.deleteEmployee(employeeId);
     }
 
-    @GetMapping("/vat-number/{employeeId}")
-	public Employee findCompanyByVatNumber(@PathVariable Integer employeeId) {
-		
-		return employeeService.findEmployeeById(employeeId);
-		
-	}
+    @GetMapping("/{employeeId}")
+    public Employee findEmployeeById(@PathVariable Integer employeeId) {
+
+        return employeeService.findEmployeeById(employeeId);
+
+    }
 }
