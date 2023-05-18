@@ -50,4 +50,9 @@ public class CompanyController {
         return companyService.findAll();
     }
 
+    @GetMapping("/customer-id/{customerId}")
+    public Company findByCustomersId(@PathVariable Integer customerId){
+        return companyService.findByCustomersId(customerId);
+    }
+
 }

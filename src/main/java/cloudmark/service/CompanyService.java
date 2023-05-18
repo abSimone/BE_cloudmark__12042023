@@ -16,4 +16,6 @@ public interface CompanyService {
 
     List<Company> findAll();
 
+    Company findByCustomersId(Integer id);
+
 }

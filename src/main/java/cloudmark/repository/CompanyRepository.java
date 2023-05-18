@@ -6,5 +6,7 @@ import cloudmark.entity.Company;
 
 
 public interface CompanyRepository extends JpaRepository<Company,Integer> {
+
+    Company findByCustomersId(Integer id);
        
 }

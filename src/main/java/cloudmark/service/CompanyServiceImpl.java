@@ -53,5 +53,10 @@ public class CompanyServiceImpl implements CompanyService {
     public List<Company> findAll() {
         return companyRepository.findAll();
     }
+
+    @Override
+    public Company findByCustomersId(Integer id) {
+        return companyRepository.findByCustomersId(id);
+    }
     
 }
