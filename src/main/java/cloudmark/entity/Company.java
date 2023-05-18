@@ -21,10 +21,10 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "company_id")
-    @NotEmpty(message = "companyId cannot be empty")
+    @Column(name = "company_name")
+    @NotEmpty(message = "companyName cannot be empty")
     @Size(max = 50)
-    private String companyId;
+    private String companyName;
 
     @Column(name = "vat_number")
     @NotEmpty(message = "vatNumber cannot be empty")
