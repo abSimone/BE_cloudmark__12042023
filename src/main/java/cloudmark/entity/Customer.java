@@ -1,10 +1,17 @@
 package cloudmark.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,5 +68,10 @@ public class Customer {
     @Size(max = 20)
     @Column(nullable = true)
     private String fax;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    private Set<Job> jobs=new HashSet<>();
+    
 
 }
