@@ -54,4 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findById(employeeId).get();
     }
 
+    @Override
+    public List<Employee> findByJobsId(Integer id) {
+        return employeeRepository.findByJobsId(id);
+    }
+
 }

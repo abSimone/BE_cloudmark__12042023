@@ -42,16 +42,25 @@ public class EmployeeController {
         return employeeService.findAllEmployees();
     }
 
-    @DeleteMapping("/{employeeId}")
+    @DeleteMapping("/id/{employeeId}")
     public Map<Boolean, String> deleteEmployee(@PathVariable Integer employeeId) {
 
         return employeeService.deleteEmployee(employeeId);
     }
 
-    @GetMapping("/{employeeId}")
+    @GetMapping("/id/{employeeId}")
     public Employee findEmployeeById(@PathVariable Integer employeeId) {
 
         return employeeService.findEmployeeById(employeeId);
 
     }
+
+    @GetMapping("/job-id/{jobsId}")
+    public List<Employee> findEmployeeByJobsId(@PathVariable Integer jobsId) {
+
+        return employeeService.findByJobsId(jobsId);
+
+    }
+
+
 }
