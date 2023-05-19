@@ -25,7 +25,6 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Integer id;
 
     @Size(max = 50)

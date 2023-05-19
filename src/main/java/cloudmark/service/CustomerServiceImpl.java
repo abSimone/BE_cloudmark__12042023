@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Customer;
+import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CustomerRepository;
 
 @Service
@@ -23,7 +24,15 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        return customerRepository.save(customer);
+        if (customerRepository.existsById(customer.getId())) {
+            return customerRepository.save(customer);
+        }
+        else {
+            throw new RecordNotFoundException(
+                "tried to update a non existing record",
+                customer.getCustomerName(), "record not found"
+            );
+        }
     }
 
     @Override
