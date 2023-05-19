@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Customer;
+import cloudmark.exception.InvalidRequestException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CustomerRepository;
 
@@ -19,18 +20,34 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+        //gestione caso in cui viene passato id 
+        if(customer.getId()!=null){
+            throw new InvalidRequestException(
+                "tried to create record",
+                customer.getCustomerName(),
+                "Id given");
+        }
+        else{
+            return customerRepository.save(customer);
+        }
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
+        if(customer.getId()==null){
+            throw new InvalidRequestException(
+                "tried to update record",
+                customer.getCustomerName(),
+                "Id not given");
+        }
         if (customerRepository.existsById(customer.getId())) {
             return customerRepository.save(customer);
         }
         else {
             throw new RecordNotFoundException(
                 "tried to update a non existing record",
-                customer.getCustomerName(), "record not found"
+                customer.getCustomerName(), 
+                "record not found"
             );
         }
     }
@@ -48,7 +65,12 @@ public class CustomerServiceImpl implements CustomerService{
             }
         }
         else{
-            deleteMap.put(false, "customer not exist");
+            //deleteMap.put(false, "customer not exist");
+            throw new RecordNotFoundException(
+                "tried to delete a non existing record",
+                Integer.toString(id), 
+                "record not found"
+            );
         }
 
         return deleteMap;

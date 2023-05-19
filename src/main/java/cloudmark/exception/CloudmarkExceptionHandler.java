@@ -45,4 +45,10 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     
     }
 
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<Object> handleInvalidRequest(InvalidRequestException ex){
+        ApiError apiError=new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        return new ResponseEntity<>(apiError,apiError.getHttpStatus());
+    }
+
 }
