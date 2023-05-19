@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Company;
+import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CompanyRepository;
 
@@ -25,6 +26,13 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company updateCompany(Company company) {
+
+        if (company.getId() == null) {
+            throw new IncorrectServiceException(
+                "this service cannot be used for insert operations",
+                "id", "id should be null"
+            );
+        }
 
         if (companyRepository.existsById(company.getId())) {
             return companyRepository.save(company);
