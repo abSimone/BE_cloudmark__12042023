@@ -12,8 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -69,12 +67,7 @@ public class Employee {
     private ContractType contractType;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-        name = "employee_job",
-        joinColumns = @JoinColumn(name = "employee_id"),
-        inverseJoinColumns = @JoinColumn(name = "job_id")
-    )
+    @ManyToMany(mappedBy = "employees")
     private List<Job> jobs;
 
     public enum ContractType {

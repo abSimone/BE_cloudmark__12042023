@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Employee;
+import cloudmark.entity.Job;
 import cloudmark.repository.EmployeeRepository;
+import cloudmark.repository.JobRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -16,9 +18,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
+    /*
+     * abbiamo definito che non è possibile inserire employee
+     * con associate commesse che non esistono sul db
+     */
     @Override
     public Employee saveOrUpdateEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        if (employee != null) {
+            Employee insertedEmployee = employeeRepository.save(employee);
+
+            for (Job job : employee.getJobs()) {
+                job.getEmployees().add(insertedEmployee);
+                jobRepository.save(job);
+            }
+
+            return insertedEmployee;
+        } else {
+            // questa risposta sarebbe da gestire
+            throw new IllegalArgumentException("Employee cannot be null");
+        }
+
     }
 
     @Override

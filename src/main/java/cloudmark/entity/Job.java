@@ -1,5 +1,6 @@
 package cloudmark.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -51,9 +54,13 @@ public class Job {
     private Customer customer;
 
 
-
     @JsonIgnore
-    @ManyToMany(mappedBy = "jobs")
-    private List<Employee> employees;
+    @ManyToMany
+    @JoinTable(
+        name = "employee_job",
+        joinColumns = @JoinColumn(name = "job_id"),
+        inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Employee> employees = new ArrayList<>(0);
     
 }
