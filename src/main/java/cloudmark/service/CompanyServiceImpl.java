@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Company;
+import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CompanyRepository;
 
 
@@ -24,7 +25,17 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company updateCompany(Company company) {
-        return companyRepository.save(company);
+
+        if (companyRepository.existsById(company.getId())) {
+            return companyRepository.save(company);
+        }
+        else {
+            throw new RecordNotFoundException(
+                "tried to update a non existing record",
+                company.getCompanyName(), "record not found"
+            );
+        }
+        
     }
 
     @Override

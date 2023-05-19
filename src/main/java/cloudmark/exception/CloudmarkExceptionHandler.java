@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -20,6 +21,7 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getAllErrors().forEach(error -> {
@@ -30,7 +32,17 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), errors);
 
-        return new ResponseEntity<Object>(apiError, apiError.getHttpStatus());
+        return new ResponseEntity<>(apiError, apiError.getHttpStatus());
+        
+    }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<Object> handleRecordNotFound(RecordNotFoundException ex) {
+    
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        
+        return new ResponseEntity<>(apiError, apiError.getHttpStatus());
+    
     }
 
 }
