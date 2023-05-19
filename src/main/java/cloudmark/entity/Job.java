@@ -1,8 +1,9 @@
 package cloudmark.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,21 +47,14 @@ public class Job {
     @Column(nullable = false)
     private String installments;
 
-
-
-    //customer_id
+    // customer_id
     @ManyToOne
-    @JoinColumn(name = "customer_id",nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-        name = "employee_job",
-        joinColumns = @JoinColumn(name = "job_id"),
-        inverseJoinColumns = @JoinColumn(name = "employee_id")
-    )
-    private List<Employee> employees = new ArrayList<>(0);
-    
+    @JoinTable(name = "employee_job", joinColumns = @JoinColumn(name = "job_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
+    private Set<Employee> employees = new HashSet<>(0);
+
 }

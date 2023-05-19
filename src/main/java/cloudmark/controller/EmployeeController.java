@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cloudmark.entity.Employee;
 import cloudmark.service.EmployeeService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/employee")
@@ -24,14 +25,14 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/")
-    public Employee saveEmployee(@RequestBody Employee employee) {
+    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
 
         return employeeService.saveOrUpdateEmployee(employee); // INSERT
 
     }
 
     @PutMapping("/")
-    public Employee updateEmployee(@RequestBody Employee employee) {
+    public Employee updateEmployee(@Valid @RequestBody Employee employee) {
 
         return employeeService.saveOrUpdateEmployee(employee); // UPDATE
     }
@@ -61,6 +62,5 @@ public class EmployeeController {
         return employeeService.findByJobsId(jobsId);
 
     }
-
 
 }

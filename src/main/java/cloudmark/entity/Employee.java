@@ -1,7 +1,9 @@
 package cloudmark.entity;
 
 import java.sql.Date;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -68,7 +70,7 @@ public class Employee {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "employees")
-    private List<Job> jobs;
+    private Set<Job> jobs = new HashSet<>(0);
 
     public enum ContractType {
         indeterminato,

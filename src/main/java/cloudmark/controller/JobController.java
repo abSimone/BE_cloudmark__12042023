@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cloudmark.entity.Job;
 import cloudmark.service.JobService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/job")
@@ -24,12 +25,12 @@ public class JobController {
     private JobService jobService;
 
     @PostMapping("/")
-    public Job saveJob(@RequestBody Job job){
+    public Job saveJob(@Valid @RequestBody Job job){
         return jobService.saveJob(job);
     }
 
     @PutMapping("/")
-    public Job updateJob(@RequestBody Job job){
+    public Job updateJob(@Valid @RequestBody Job job){
         return jobService.updateJob(job);
     }
 
