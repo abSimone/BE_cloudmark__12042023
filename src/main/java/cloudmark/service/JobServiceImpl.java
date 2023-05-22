@@ -80,4 +80,18 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAll();
     }
 
+    @Override
+    public Job findJobById(Integer id) {
+        if(jobRepository.existsById(id)){
+            return jobRepository.findById(id).get();
+        }
+        else{
+            throw new RecordNotFoundException(
+                    "tried to retrieve a non existing record",
+                    Integer.toString(id),
+                    "record not found"
+            );
+        }
+    }
+
 }
