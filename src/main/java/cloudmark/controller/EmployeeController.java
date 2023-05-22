@@ -27,14 +27,14 @@ public class EmployeeController {
     @PostMapping("/")
     public Employee saveEmployee(@Valid @RequestBody Employee employee) {
 
-        return employeeService.saveOrUpdateEmployee(employee); // INSERT
+        return employeeService.saveEmployee(employee); // INSERT
 
     }
 
     @PutMapping("/")
     public Employee updateEmployee(@Valid @RequestBody Employee employee) {
 
-        return employeeService.saveOrUpdateEmployee(employee); // UPDATE
+        return employeeService.updateEmployee(employee); // UPDATE
     }
 
     @GetMapping("/")

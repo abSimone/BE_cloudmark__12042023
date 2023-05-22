@@ -7,7 +7,9 @@ import cloudmark.entity.Employee;
 
 public interface EmployeeService {
 
-    public Employee saveOrUpdateEmployee(Employee employee);
+    public Employee saveEmployee(Employee employee);
+
+    public Employee updateEmployee(Employee employee);
 
     public List<Employee> findAllEmployees();
 
