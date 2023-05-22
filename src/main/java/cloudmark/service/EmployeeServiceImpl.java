@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cloudmark.exception.InvalidRequestException;
+import cloudmark.exception.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,19 +28,49 @@ public class EmployeeServiceImpl implements EmployeeService {
      * con associate commesse che non esistono sul db
      */
     @Override
-    public Employee saveOrUpdateEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         if (employee != null) {
-            Employee insertedEmployee = employeeRepository.save(employee);
+            // caso in cui viene passato id
+            if (employee.getId() != null) {
+                throw new InvalidRequestException(
+                        "tried to create record",
+                        employee.getLastName(),
+                        "Id given"
+                );
+            } else {
+                Employee insertedEmployee = employeeRepository.save(employee);
 
-            for (Job job : employee.getJobs()) {
-                job.getEmployees().add(insertedEmployee);
-                jobRepository.save(job);
+                for (Job job : employee.getJobs()) {
+                    job.getEmployees().add(insertedEmployee);
+                    jobRepository.save(job);
+                }
+
+                return insertedEmployee;
+
             }
-
-            return insertedEmployee;
         } else {
-            // questa risposta sarebbe da gestire
             throw new IllegalArgumentException("Employee cannot be null");
+        }
+
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee) {
+        if (employee.getId() == null) {
+            throw new InvalidRequestException(
+                    "tried to update record",
+                    employee.getLastName(),
+                    "Id not given"
+            );
+        }
+        if (employeeRepository.existsById(employee.getId())) {
+            return employeeRepository.save(employee);
+        } else {
+            throw new RecordNotFoundException(
+                    "tried to update a non existing record",
+                    employee.getLastName(),
+                    "record not found"
+            );
         }
 
     }
@@ -57,15 +89,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             try {
                 employeeRepository.deleteById(employeeId);
-                deletionMap.put(true, "cancellazione effettuata");
+                deletionMap.put(true, "deleteEmployee success");
 
             } catch (IllegalArgumentException e) {
-                deletionMap.put(false, "cancellazione non effettuata");
+                deletionMap.put(false, "deleteEmployee error");
                 e.printStackTrace();
             }
 
         } else {
-            deletionMap.put(false, "employeeId non esistente nel database");
+            throw new RecordNotFoundException(
+                    "tried to delete a non existing record",
+                    Integer.toString(employeeId),
+                    "record not found"
+            );
         }
 
         return deletionMap;
@@ -73,11 +109,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployeeById(Integer employeeId) {
-        return employeeRepository.findById(employeeId).get();
+        if (!employeeRepository.existsById(employeeId))
+            throw new RecordNotFoundException(
+                    "tried to retrieve a non existing record",
+                    Integer.toString(employeeId),
+                    "record not found"
+            );
+        else {
+            return employeeRepository.findById(employeeId).get();
+        }
     }
 
     @Override
     public List<Employee> findByJobsId(Integer id) {
+        if (!jobRepository.existsById(id))
+            throw new RecordNotFoundException(
+                    "tried to retrieve a non existing record",
+                    Integer.toString(id),
+                    "record not found"
+            );
         return employeeRepository.findByJobsId(id);
     }
 
