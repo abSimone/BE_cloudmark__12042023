@@ -67,4 +67,13 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     
     }
 
+    @ExceptionHandler(DuplicateRecordException.class)
+    public ResponseEntity<Object> handleDuplicateRecord(DuplicateRecordException ex) {
+    
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        
+        return new ResponseEntity<>(apiError, apiError.getHttpStatus());
+    
+    }
+
 }

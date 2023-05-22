@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Company;
+import cloudmark.exception.DuplicateRecordException;
 import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CompanyRepository;
@@ -21,7 +22,24 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company saveCompany(Company company) {
-        return companyRepository.save(company);
+
+        if (company.getId() != null) {
+            throw new IncorrectServiceException(
+                "this service cannot be used for update operations",
+                "id", "id should be null"
+            );
+        }
+
+        if (companyRepository.existsCompanyByCompanyName(company.getCompanyName())) {
+            throw new DuplicateRecordException(
+                "tried to insert an already existing record",
+                company.getCompanyName(), "already exists"
+            );
+        }
+        else {
+            return companyRepository.save(company);
+        }
+        
     }
 
     @Override
@@ -30,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (company.getId() == null) {
             throw new IncorrectServiceException(
                 "this service cannot be used for insert operations",
-                "id", "id should be null"
+                "id", "id cannot be null"
             );
         }
 
