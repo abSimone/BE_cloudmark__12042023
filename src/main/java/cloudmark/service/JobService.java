@@ -11,7 +11,7 @@ public interface JobService {
 
     public Job updateJob(Job job);
 
-    public Map<Boolean,String> deleteJob(int id);
+    public Map<Boolean,String> deleteJob(Integer id);
 
     public List<Job> findAll();
 
