@@ -7,14 +7,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -71,6 +65,11 @@ public class Employee {
     @JsonIgnore
     @ManyToMany(mappedBy = "employees")
     private Set<Job> jobs = new HashSet<>(0);
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     public enum ContractType {
         indeterminato,
