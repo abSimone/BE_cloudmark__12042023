@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Job;
+import cloudmark.exception.InvalidRequestException;
+import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.JobRepository;
 
 @Service
@@ -25,26 +27,39 @@ public class JobServiceImpl implements JobService {
      */
     @Override
     public Job saveJob(Job job) {
-        if (job != null) {
+        if(job.getId()!=null){
+            throw new InvalidRequestException(
+                "tried to create record",
+                job.getDescription(),
+                "Id given");
+        }
+        else{
             return jobRepository.save(job);
-        } else {
-            // risposta da sistemare con le eccezioni
-            throw new IllegalArgumentException("Job cannot be null");
         }
     }
 
     @Override
     public Job updateJob(Job job) {
-        if (job != null) {
-            return jobRepository.save(job);
-        } else {
-            throw new IllegalArgumentException("Job cannot be null");
+        if(job.getId()==null){
+            throw new InvalidRequestException(
+                "tried to update record",
+                job.getDescription(),
+                "Id not given");
         }
-
+        if(jobRepository.existsById(job.getId())){
+            Job jobUpdated= jobRepository.save(job);
+            return jobUpdated;
+        }
+        else{
+            throw new RecordNotFoundException(
+                "tried to update a non existing record",
+                job.getDescription(),
+                "record not found");
+        }
     }
 
     @Override
-    public Map<Boolean, String> deleteJob(int id) {
+    public Map<Boolean, String> deleteJob(Integer id) {
         Map<Boolean, String> deleteMap = new HashMap<>();
 
         if (jobRepository.existsById(id)) {
