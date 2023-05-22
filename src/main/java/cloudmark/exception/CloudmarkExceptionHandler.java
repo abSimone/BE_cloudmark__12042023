@@ -1,4 +1,4 @@
-package cloudmark.exception;
+        package cloudmark.exception;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RecordNotFoundException.class)
     public ResponseEntity<Object> handleRecordNotFound(RecordNotFoundException ex) {
     
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex, ex.getMessage(), ex.getErrors());
         
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     
@@ -61,7 +61,7 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IncorrectServiceException.class)
     public ResponseEntity<Object> handleIncorrectService(IncorrectServiceException ex) {
     
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        ApiError apiError = new ApiError(HttpStatus.UNPROCESSABLE_ENTITY, ex, ex.getMessage(), ex.getErrors());
         
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     
