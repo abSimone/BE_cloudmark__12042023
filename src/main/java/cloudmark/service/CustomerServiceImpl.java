@@ -1,13 +1,17 @@
 package cloudmark.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cloudmark.entity.Company;
 import cloudmark.entity.Customer;
 import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
+import cloudmark.repository.CompanyRepository;
 import cloudmark.repository.CustomerRepository;
 
 @Service
@@ -15,6 +19,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Override
     public Customer saveCustomer(Customer customer) {
@@ -26,9 +33,28 @@ public class CustomerServiceImpl implements CustomerService{
                 "Id given");
         }
         else{
-            return customerRepository.save(customer);
+            Customer insertedCustomer = customerRepository.save(customer);
+
+            Set<Customer> oldCustomers=new HashSet<Customer>();
+
+            System.out.println(customer.getCompanies());
+
+            for (Company company : customer.getCompanies()) {
+                
+                //per ogni company prende i customers già esistenti
+                oldCustomers=companyRepository.findById(company.getId()).get().getCustomers();
+                //aggiunge il customer attuale
+                oldCustomers.add(insertedCustomer);
+                //assegna a company i customer vecchi + quello nuovo
+                company.setCustomers(oldCustomers);
+
+                companyRepository.save(company);
+            }
+            
+
+            return insertedCustomer;
         }
-    }
+    } 
 
     @Override
     public Customer updateCustomer(Customer customer) {
@@ -53,6 +79,14 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public String deleteCustomer(int id) {
         if (customerRepository.existsById(id)) {
+            for(Company company: customerRepository.findById(id).get().getCompanies()){
+                Set<Customer> oldCustomers=new HashSet<Customer>();
+                oldCustomers=company.getCustomers();
+                Customer customer=customerRepository.findById(id).get();
+                oldCustomers.remove(customer);
+
+                company.setCustomers(oldCustomers);
+            }
             customerRepository.deleteById(id);
             return "success";
         }
