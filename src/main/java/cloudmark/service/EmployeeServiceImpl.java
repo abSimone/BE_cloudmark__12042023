@@ -1,6 +1,8 @@
 package cloudmark.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
@@ -38,8 +40,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 Employee insertedEmployee = employeeRepository.save(employee);
 
+                // creo una copia della lista degli employees per ciascun job
+                Set<Employee> oldEmployees = new HashSet<Employee>();
+
                 for (Job job : employee.getJobs()) {
-                    job.getEmployees().add(insertedEmployee);
+                    // per ogni job prendo gli employees che già sono assegnati
+                    oldEmployees = jobRepository.findById(job.getId()).get().getEmployees();
+                    // aggiungo alla lista il nuovo employee
+                    oldEmployees.add(insertedEmployee);
+                    // setto la lista aggiornata al job
+                    job.setEmployees(oldEmployees);
+                    // aggiorno il job
                     jobRepository.save(job);
                 }
 
@@ -62,7 +73,22 @@ public class EmployeeServiceImpl implements EmployeeService {
             );
         }
         if (employeeRepository.existsById(employee.getId())) {
-            return employeeRepository.save(employee);
+
+            Employee updatedEmployee = employeeRepository.save(employee);
+
+            Set<Employee> oldEmployees = new HashSet<Employee>();
+
+            for(Job job : employee.getJobs()) {
+                oldEmployees = jobRepository.findById(job.getId()).get().getEmployees();
+                oldEmployees.add(updatedEmployee);
+                job.setEmployees(oldEmployees);
+
+                jobRepository.save(job);
+            }
+
+            return updatedEmployee;
+
+
         } else {
             throw new RecordNotFoundException(
                     "tried to update a non existing record",
@@ -74,14 +100,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> findAllEmployees() {
-        return employeeRepository.findAll();
-    }
-
-    @Override
     public String deleteEmployee(Integer employeeId) {
 
         if (employeeRepository.existsById(employeeId)) {
+            // ciclo la lista dei jobs dell'employee da eliminare
+            for(Job job : employeeRepository.findById(employeeId).get().getJobs()) {
+                // prendo la lista degli employees prensenti per ogni job
+                Set<Employee> oldEmployees = job.getEmployees();
+                // rimuovo dalla lista l'employee da cancellare
+                Employee employee = employeeRepository.findById(employeeId).get();
+                oldEmployees.remove(employee);
+
+                // setto la lista aggiornata al job
+                job.setEmployees(oldEmployees);
+
+            }
             employeeRepository.deleteById(employeeId);
             return "success";
         }
@@ -91,6 +124,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 "id", "record not found"
             );
         }
+    }
+
+    @Override
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
     }
 
     @Override
