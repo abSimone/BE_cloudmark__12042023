@@ -20,5 +20,7 @@ public interface CustomerService {
     public Customer findByCustomerName(String customerName);
 
     public Customer findByVatNumber(String vatNumber);
+
+    public Customer findById(Integer id);
     
 }

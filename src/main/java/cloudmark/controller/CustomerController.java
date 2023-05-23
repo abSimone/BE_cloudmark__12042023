@@ -54,6 +54,11 @@ public class CustomerController {
     public Customer findByVatNumber(@PathVariable String vatNumber){
         return customerService.findByVatNumber(vatNumber);
     }
+
+    @GetMapping("/id/{id}")
+    public Customer findById(@PathVariable Integer id){
+        return customerService.findById(id);
+    }
     
 
 }

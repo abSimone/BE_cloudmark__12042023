@@ -11,7 +11,6 @@ import cloudmark.entity.Customer;
 import cloudmark.exception.InvalidRequestException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CustomerRepository;
-import cloudmark.repository.JobRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -108,6 +107,20 @@ public class CustomerServiceImpl implements CustomerService{
             throw new RecordNotFoundException(
                     "tried to retrieve a non existing record",
                     vatNumber,
+                    "record not found"
+            );
+        }
+    }
+
+    @Override
+    public Customer findById(Integer id) {
+        if(customerRepository.existsById(id)){
+            return customerRepository.findById(id).get();
+        }
+        else{
+            throw new RecordNotFoundException(
+                    "tried to retrieve a non existing record",
+                    Integer.toString(id),
                     "record not found"
             );
         }
