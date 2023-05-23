@@ -8,18 +8,18 @@ import lombok.Setter;
 
 
 @Getter @Setter
-public class RecordNotFoundException extends RuntimeException {
+public class IncorrectServiceException extends RuntimeException {
 
     Map<String,String> errors = new HashMap<>();
 
-    public RecordNotFoundException(String message, String fieldName, String error) {
+    public IncorrectServiceException(String message, String fieldName, String error) {
         super(message);
         this.errors.put(fieldName, error);
     }
 
-    public RecordNotFoundException(String message, Map<String,String> errors) {
+    public IncorrectServiceException(String message, Map<String,String> errors) {
         super(message);
         this.errors = errors;
     }
-
+    
 }

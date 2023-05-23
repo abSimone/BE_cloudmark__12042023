@@ -1,7 +1,6 @@
 package cloudmark.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +40,7 @@ public class CompanyController {
 
     @DeleteMapping("/id/{companyId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Map<Boolean,String> deleteActor(@PathVariable Integer companyId) {
+    public String deleteActor(@PathVariable Integer companyId) {
         return companyService.deleteCompany(companyId);
     }
 

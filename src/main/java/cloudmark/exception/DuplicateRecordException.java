@@ -8,16 +8,16 @@ import lombok.Setter;
 
 
 @Getter @Setter
-public class RecordNotFoundException extends RuntimeException {
-
+public class DuplicateRecordException extends RuntimeException {
+    
     Map<String,String> errors = new HashMap<>();
 
-    public RecordNotFoundException(String message, String fieldName, String error) {
+    public DuplicateRecordException(String message, String fieldName, String error) {
         super(message);
         this.errors.put(fieldName, error);
     }
 
-    public RecordNotFoundException(String message, Map<String,String> errors) {
+    public DuplicateRecordException(String message, Map<String,String> errors) {
         super(message);
         this.errors = errors;
     }

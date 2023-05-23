@@ -1,7 +1,6 @@
 package cloudmark.service;
 
 import java.util.List;
-import java.util.Map;
 
 import cloudmark.entity.Company;
 
@@ -12,7 +11,7 @@ public interface CompanyService {
 
     Company updateCompany(Company company);
 
-    Map<Boolean,String> deleteCompany(Integer companyId);
+    String deleteCompany(Integer companyId);
 
     List<Company> findAll();
 
