@@ -43,6 +43,17 @@ public class CustomerController {
     public List<Customer> findAll(){
         return customerService.findAll();
     }
+
+    @GetMapping("/customer-name/{customerName}")
+    public Customer findByCustomerName(@PathVariable String customerName){
+        return customerService.findByCustomerName(customerName);
+    }
+
+    
+    @GetMapping("/vat-number/{vatNumber}")
+    public Customer findByVatNumber(@PathVariable String vatNumber){
+        return customerService.findByVatNumber(vatNumber);
+    }
     
 
 }

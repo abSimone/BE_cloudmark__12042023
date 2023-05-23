@@ -16,5 +16,9 @@ public interface CustomerService {
     public Map<Boolean,String> deleteCustomer(int id);
 
     public List<Customer> findAll();
+
+    public Customer findByCustomerName(String customerName);
+
+    public Customer findByVatNumber(String vatNumber);
     
 }
