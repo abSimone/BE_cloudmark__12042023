@@ -72,7 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
         else {
             throw new RecordNotFoundException(
                 "tried to delete a non existing record",
-                "companyId", "record not found"
+                "id", "record not found"
             );
         }
 

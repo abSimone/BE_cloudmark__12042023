@@ -1,7 +1,6 @@
 package cloudmark.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +34,7 @@ public class JobController {
     }
 
     @DeleteMapping("/id/{jobId}")
-    public Map<Boolean,String> deleteJob(@PathVariable Integer jobId){
+    public String deleteJob(@PathVariable Integer jobId){
         return jobService.deleteJob(jobId);
     }
 

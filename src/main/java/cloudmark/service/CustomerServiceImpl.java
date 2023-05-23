@@ -1,14 +1,12 @@
 package cloudmark.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Customer;
-import cloudmark.exception.InvalidRequestException;
+import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.CustomerRepository;
 
@@ -22,9 +20,9 @@ public class CustomerServiceImpl implements CustomerService{
     public Customer saveCustomer(Customer customer) {
         //gestione caso in cui viene passato id 
         if(customer.getId()!=null){
-            throw new InvalidRequestException(
+            throw new IncorrectServiceException(
                 "tried to create record",
-                customer.getCustomerName(),
+                "id",
                 "Id given");
         }
         else{
@@ -35,9 +33,9 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Customer updateCustomer(Customer customer) {
         if(customer.getId()==null){
-            throw new InvalidRequestException(
+            throw new IncorrectServiceException(
                 "tried to update record",
-                customer.getCustomerName(),
+                "id",
                 "Id not given");
         }
         if (customerRepository.existsById(customer.getId())) {
@@ -53,27 +51,17 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Map<Boolean, String> deleteCustomer(int id) {
-        Map<Boolean,String> deleteMap = new HashMap<>();
-        if(customerRepository.existsById(id)){
-            try{
-                customerRepository.deleteById(id);
-                deleteMap.put(true, "deleteCustomer success");
-            }
-            catch(IllegalArgumentException e){
-                deleteMap.put(false, "deleteCustomer error");
-            }
+    public String deleteCustomer(int id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return "success";
         }
-        else{
-            //deleteMap.put(false, "customer not exist");
+        else {
             throw new RecordNotFoundException(
                 "tried to delete a non existing record",
-                Integer.toString(id), 
-                "record not found"
+                "id", "record not found"
             );
         }
-
-        return deleteMap;
     }
 
     @Override
@@ -83,33 +71,12 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer findByCustomerName(String customerName) {
-        
-        Customer customer= customerRepository.findByCustomerName(customerName);
-        if(customer!=null){
-            return customer;
-        }
-        else{
-            throw new RecordNotFoundException(
-                    "tried to retrieve a non existing record",
-                    customerName,
-                    "record not found"
-            );
-        }
+        return customerRepository.findByCustomerName(customerName);
     }
 
     @Override
     public Customer findByVatNumber(String vatNumber) {
-        Customer customer= customerRepository.findByVatNumber(vatNumber);
-        if(customer!=null){
-            return customer;
-        }
-        else{
-            throw new RecordNotFoundException(
-                    "tried to retrieve a non existing record",
-                    vatNumber,
-                    "record not found"
-            );
-        }
+        return customerRepository.findByVatNumber(vatNumber);
     }
 
     @Override
@@ -125,7 +92,5 @@ public class CustomerServiceImpl implements CustomerService{
             );
         }
     }
-
-    
-    
+   
 }

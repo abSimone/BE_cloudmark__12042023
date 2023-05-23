@@ -1,10 +1,8 @@
 package cloudmark.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cloudmark.exception.InvalidRequestException;
+import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee != null) {
             // caso in cui viene passato id
             if (employee.getId() != null) {
-                throw new InvalidRequestException(
+                throw new IncorrectServiceException(
                         "tried to create record",
-                        employee.getLastName(),
+                        "id",
                         "Id given"
                 );
             } else {
@@ -57,9 +55,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee updateEmployee(Employee employee) {
         if (employee.getId() == null) {
-            throw new InvalidRequestException(
+            throw new IncorrectServiceException(
                     "tried to update record",
-                    employee.getLastName(),
+                    "id",
                     "Id not given"
             );
         }
@@ -68,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new RecordNotFoundException(
                     "tried to update a non existing record",
-                    employee.getLastName(),
+                    employee.getFirstName() + " " + employee.getLastName(),
                     "record not found"
             );
         }
@@ -81,30 +79,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Map<Boolean, String> deleteEmployee(Integer employeeId) {
-
-        Map<Boolean, String> deletionMap = new HashMap<>();
+    public String deleteEmployee(Integer employeeId) {
 
         if (employeeRepository.existsById(employeeId)) {
-
-            try {
-                employeeRepository.deleteById(employeeId);
-                deletionMap.put(true, "deleteEmployee success");
-
-            } catch (IllegalArgumentException e) {
-                deletionMap.put(false, "deleteEmployee error");
-                e.printStackTrace();
-            }
-
-        } else {
+            employeeRepository.deleteById(employeeId);
+            return "success";
+        }
+        else {
             throw new RecordNotFoundException(
-                    "tried to delete a non existing record",
-                    Integer.toString(employeeId),
-                    "record not found"
+                "tried to delete a non existing record",
+                "id", "record not found"
             );
         }
-
-        return deletionMap;
     }
 
     @Override

@@ -1,14 +1,12 @@
 package cloudmark.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cloudmark.entity.Job;
-import cloudmark.exception.InvalidRequestException;
+import cloudmark.exception.IncorrectServiceException;
 import cloudmark.exception.RecordNotFoundException;
 import cloudmark.repository.JobRepository;
 
@@ -28,9 +26,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job saveJob(Job job) {
         if(job.getId()!=null){
-            throw new InvalidRequestException(
+            throw new IncorrectServiceException(
                 "tried to create record",
-                job.getDescription(),
+                "id",
                 "Id given");
         }
         else{
@@ -41,9 +39,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job updateJob(Job job) {
         if(job.getId()==null){
-            throw new InvalidRequestException(
+            throw new IncorrectServiceException(
                 "tried to update record",
-                job.getDescription(),
+                "id",
                 "Id not given");
         }
         if(jobRepository.existsById(job.getId())){
@@ -59,20 +57,19 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Map<Boolean, String> deleteJob(Integer id) {
-        Map<Boolean, String> deleteMap = new HashMap<>();
+    public String deleteJob(Integer id) {
 
         if (jobRepository.existsById(id)) {
-            try {
-                jobRepository.deleteById(id);
-                deleteMap.put(true, "deleteJob success");
-            } catch (IllegalArgumentException e) {
-                deleteMap.put(false, "deleteJob error");
-            }
-        } else {
-            deleteMap.put(false, "job not exist");
+            jobRepository.deleteById(id);
+            return "success";
         }
-        return deleteMap;
+        else {
+            throw new RecordNotFoundException(
+                "tried to delete a non existing record",
+                "id", "record not found"
+            );
+        }
+
     }
 
     @Override
