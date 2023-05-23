@@ -65,7 +65,24 @@ public class CustomerServiceImpl implements CustomerService{
                 "Id not given");
         }
         if (customerRepository.existsById(customer.getId())) {
-            return customerRepository.save(customer);
+            Customer updatedCustomer=customerRepository.save(customer);
+
+            Set<Customer> oldCustomers=new HashSet<Customer>();
+
+            System.out.println(customer.getCompanies());
+
+            for (Company company : customer.getCompanies()) {
+                
+                //per ogni company prende i customers già esistenti
+                oldCustomers=companyRepository.findById(company.getId()).get().getCustomers();
+                //aggiunge il customer attuale
+                oldCustomers.add(updatedCustomer);
+                //assegna a company i customer vecchi + quello nuovo
+                company.setCustomers(oldCustomers);
+
+                companyRepository.save(company);
+            }
+            return updatedCustomer;
         }
         else {
             throw new RecordNotFoundException(
