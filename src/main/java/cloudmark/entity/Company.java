@@ -22,12 +22,12 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "company_name")
+    @Column(name = "company_name",unique = true)
     @NotEmpty(message = "companyName cannot be empty")
     @Size(max = 50)
     private String companyName;
 
-    @Column(name = "vat_number")
+    @Column(name = "vat_number",unique = true)
     @NotEmpty(message = "vatNumber cannot be empty")
     @Size(min = 11, max = 11)
     private String vatNumber;
@@ -36,6 +36,7 @@ public class Company {
     @Size(max = 50)
     private String address;
 
+    @Column(unique = true)
     @NotEmpty(message = "iban cannot be empty")
     @Size(min = 27, max = 27)
     private String iban;
