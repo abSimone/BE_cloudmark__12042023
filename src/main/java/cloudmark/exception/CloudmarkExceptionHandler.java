@@ -3,6 +3,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -67,10 +68,12 @@ public class CloudmarkExceptionHandler extends ResponseEntityExceptionHandler {
     
     }
 
-    @ExceptionHandler(DuplicateRecordException.class)
-    public ResponseEntity<Object> handleDuplicateRecord(DuplicateRecordException ex) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
     
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex, ex.getMessage(), ex.getErrors());
+        Map<String, String> errors = new HashMap<>();
+
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, ex, ex.getMessage(), errors);
         
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     

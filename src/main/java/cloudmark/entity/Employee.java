@@ -47,15 +47,16 @@ public class Employee {
     @Size(max = 20)
     private String city;
 
+    @Column(unique = true)
     @Size(min = 27, max = 27)
     private String iban;
 
     @Size(max = 20)
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number", nullable = false,unique = true)
     private String phoneNumber;
 
     @Size(max = 50)
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(name = "contract_type", nullable = false)
