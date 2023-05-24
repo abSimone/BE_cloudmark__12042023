@@ -62,7 +62,7 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private ContractType contractType;
 
-    @JsonIgnore
+    /*@JsonIgnore*/
     @ManyToMany(mappedBy = "employees")
     private Set<Job> jobs = new HashSet<>(0);
 
