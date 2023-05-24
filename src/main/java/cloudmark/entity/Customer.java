@@ -28,10 +28,10 @@ public class Customer {
     private Integer id;
 
     @Size(max = 50)
-    @Column(name = "customer_name",nullable = false)
+    @Column(name = "customer_name",nullable = false, unique = true)
     private String customerName;
 
-    @Column(name = "vat_number", nullable = false)
+    @Column(name = "vat_number", nullable = false, unique = true)
     @Size(max = 50)
     private String vatNumber;
 
@@ -48,7 +48,7 @@ public class Customer {
     private String city;
 
     @Size(max = 50)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String iban;
 
     @Size(max = 20)
