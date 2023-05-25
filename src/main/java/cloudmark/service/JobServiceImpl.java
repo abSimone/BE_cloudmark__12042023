@@ -2,6 +2,7 @@ package cloudmark.service;
 
 import java.util.List;
 
+import cloudmark.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     /*
      * abbiamo definito che i job vengono create e che solo
@@ -86,6 +90,21 @@ public class JobServiceImpl implements JobService {
             throw new RecordNotFoundException(
                     "tried to retrieve a non existing record",
                     Integer.toString(id),
+                    "record not found"
+            );
+        }
+    }
+
+    @Override
+    public List<Job> findJobsByCustomer(Integer customerId) {
+        if(customerRepository.existsById(customerId)) {
+           return jobRepository.findByCustomer_Id(customerId);
+
+        }
+        else {
+            throw new RecordNotFoundException(
+                    "tried to retrieve a non existing record",
+                    Integer.toString(customerId),
                     "record not found"
             );
         }

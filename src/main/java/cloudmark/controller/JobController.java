@@ -50,5 +50,8 @@ public class JobController {
         return jobService.findJobById(jobId);
     }
 
+    @GetMapping("/customer-id/{customerId}")
+    public List<Job> findJobsByCustomer(@PathVariable Integer customerId) { return jobService.findJobsByCustomer(customerId);}
+
     
 }

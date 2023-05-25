@@ -16,8 +16,5 @@ public interface JobService {
 
     public Job findJobById(Integer id);
 
-    
-
-
-    
+    public List<Job> findJobsByCustomer(Integer customerId);
 }
