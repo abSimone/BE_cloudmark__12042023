@@ -14,7 +14,6 @@ import cloudmark.entity.Employee;
 public class CsvFileGenerator {
     public void writeEmployeeToCsv(List<Employee> employees, Writer writer) {
         try {
-
             CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
             printer.printRecord("id","firstName","lastName","address","cap","city","iban","phoneNumber","email","contractType","contractStart");
             for (Employee employee : employees) {
@@ -31,6 +30,7 @@ public class CsvFileGenerator {
                         employee.getContractType(),
                         employee.getContractStart()
                         );
+            printer.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
