@@ -67,7 +67,7 @@ public class Customer {
     @Column(nullable = true)
     private String fax;
 
-    //commentato per relazione manytomany
+    // commentato per relazione manytomany
     //@JsonIgnore
     @ManyToMany(mappedBy = "customers",fetch = FetchType.LAZY)
     private Set<Company> companies;

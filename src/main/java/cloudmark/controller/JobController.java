@@ -17,6 +17,7 @@ import cloudmark.entity.Job;
 import cloudmark.service.JobService;
 import jakarta.validation.Valid;
 
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/job")
@@ -51,7 +52,8 @@ public class JobController {
     }
 
     @GetMapping("/customer-id/{customerId}")
-    public List<Job> findJobsByCustomer(@PathVariable Integer customerId) { return jobService.findJobsByCustomer(customerId);}
-
+    public List<Job> findJobsByCustomer(@PathVariable Integer customerId) {
+        return jobService.findJobsByCustomer(customerId);
+    }
     
 }

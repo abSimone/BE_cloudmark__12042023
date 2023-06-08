@@ -17,6 +17,7 @@ import cloudmark.entity.Customer;
 import cloudmark.service.CustomerService;
 import jakarta.validation.Valid;
 
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/customer")
@@ -61,5 +62,4 @@ public class CustomerController {
         return customerService.findById(id);
     }
     
-
 }
