@@ -30,8 +30,8 @@ public class CsvFileGenerator {
                         employee.getContractType(),
                         employee.getContractStart()
                         );
-            printer.close();
             }
+            printer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
