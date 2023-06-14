@@ -43,16 +43,16 @@ VALUES
 -- Inserimento dati per la tabella "dipendente"
 INSERT INTO employee (first_name, last_name, address, cap, city, iban, phone_number, email, contract_type, contract_start, company_id)
 VALUES
-  ('nome 1', 'cognome 1', 'via roma 1', '12345', 'roma', 'it98765432109876543210987', '0123456789', 'dipendente1@email.com', 'indeterminato', '2022-01-01', 1),
-  ('nome 2', 'cognome 2', 'via milano 2', '23456', 'milano', 'it87654321098765432109876', '0234567890', 'dipendente2@email.com', 'determinato', '2022-02-01', 2),
-  ('nome 3', 'cognome 3', 'via napoli 3', '34567', 'napoli', 'it76543210987654321098765', '0345678901', 'dipendente3@email.com', 'indeterminato', '2022-03-01', 3),
-  ('nome 4', 'cognome 4', 'via venezia 4', '45678', 'venezia', 'it65432109876543210987654', '0456789012', 'dipendente4@email.com', 'determinato', '2022-04-01', 4),
-  ('nome 5', 'cognome 5', 'via firenze 5', '56789', 'firenze', 'it54321098765432109876543', '0567890123', 'dipendente5@email.com', 'indeterminato', '2022-05-01', 5),
-  ('nome 6', 'cognome 6', 'via roma 6', '12341', 'roma', 'it98765432109876543210982', '0123456781', 'dipendente6@email.com', 'indeterminato', '2022-01-01', 6),
-  ('nome 7', 'cognome 7', 'via milano 7', '23452', 'milano', 'it87654321098765432109873', '0234567897', 'dipendente7@email.com', 'determinato', '2022-02-01', 7),
-  ('nome 8', 'cognome 8', 'via napoli 8', '34563', 'napoli', 'it76543210987654321098764', '0345678904', 'dipendente8@email.com', 'indeterminato', '2022-03-01', 8),
-  ('nome 9', 'cognome 9', 'via venezia 9', '45674', 'venezia', 'it65432109876543210987655', '0456789013', 'dipendente9@email.com', 'determinato', '2022-04-01', 9),
-  ('nome 10', 'cognome 10', 'via firenze 10', '56785', 'firenze', 'it54321098765432109876546', '0567890121', 'dipendente10@email.com', 'indeterminato', '2022-05-01', 10);
+  ('nome 1', 'cognome 1', 'via roma 1', '12345', 'roma', 'it9876543210987654321098711', '0123456789', 'dipendente1@email.com', 'indeterminato', '2022-01-01', 1),
+  ('nome 2', 'cognome 2', 'via milano 2', '23456', 'milano', 'it8765432109876543210987622', '0234567890', 'dipendente2@email.com', 'determinato', '2022-02-01', 2),
+  ('nome 3', 'cognome 3', 'via napoli 3', '34567', 'napoli', 'it7654321098765432109876533', '0345678901', 'dipendente3@email.com', 'indeterminato', '2022-03-01', 3),
+  ('nome 4', 'cognome 4', 'via venezia 4', '45678', 'venezia', 'it6543210987654321098765444', '0456789012', 'dipendente4@email.com', 'determinato', '2022-04-01', 4),
+  ('nome 5', 'cognome 5', 'via firenze 5', '56789', 'firenze', 'it5432109876543210987654355', '0567890123', 'dipendente5@email.com', 'indeterminato', '2022-05-01', 5),
+  ('nome 6', 'cognome 6', 'via roma 6', '12341', 'roma', 'it9876543210987654321098266', '0123456781', 'dipendente6@email.com', 'indeterminato', '2022-01-01', 6),
+  ('nome 7', 'cognome 7', 'via milano 7', '23452', 'milano', 'it8765432109876543210987377', '0234567897', 'dipendente7@email.com', 'determinato', '2022-02-01', 7),
+  ('nome 8', 'cognome 8', 'via napoli 8', '34563', 'napoli', 'it7654321098765432109876488', '0345678904', 'dipendente8@email.com', 'indeterminato', '2022-03-01', 8),
+  ('nome 9', 'cognome 9', 'via venezia 9', '45674', 'venezia', 'it6543210987654321098765599', '0456789013', 'dipendente9@email.com', 'determinato', '2022-04-01', 9),
+  ('nome 10', 'cognome 10', 'via firenze 10', '56785', 'firenze', 'it5432109876543210987654610', '0567890121', 'dipendente10@email.com', 'indeterminato', '2022-05-01', 10);
 
 -- Inserimento dati per la tabella "commessa"
 INSERT INTO job (description, start_date, end_date, installments, customer_id)
